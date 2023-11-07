@@ -98,7 +98,15 @@ async function run() {
         console.log(wishlist);
         const result = await wishlistCollection.insertOne(wishlist);
         res.send(result);
+    });
+
+    app.delete('/wishlist/:id', async(req, res) => {
+        const id = req.params.id;
+        const query = {_id: new ObjectId(id)}
+        const result = await wishlistCollection.deleteOne(query);
+        res.send(result); 
     })
+
 
 
 

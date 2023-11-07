@@ -53,7 +53,9 @@ async function run() {
     // comments 
     app.post('/comments', async(req, res) => {
         const comment = req.body;
-        console.log(comment)
+        console.log(comment);
+        const result = await commentCollection.insertOne(comment);
+        res.send(result);
     })
 
 

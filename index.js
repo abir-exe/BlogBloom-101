@@ -32,6 +32,17 @@ async function run() {
     const commentCollection = client.db('BlogBloomDB').collection('comments');
     const wishlistCollection = client.db('BlogBloomDB').collection('wishlist');
 
+    // all blogs 
+    app.post("/allblogs", async (req, res) => {
+        const blog = req.body;
+        console.log("blog", blog)
+        const result = await allBlogsCollection.insertOne(blog);
+        console.log(result);
+        res.send(result);
+      })
+
+
+
     app.get('/allblogs', async(req, res) => {
         const cursor = allBlogsCollection.find();
         const result = await cursor.toArray();
@@ -72,6 +83,16 @@ async function run() {
     })
 
     //wishlist
+    app.get('/wishlist', async(req, res) => {
+        console.log(req.query.email);
+        let query = {};
+        if(req.query?.email) {
+            query = {email: req.query.email}
+        }
+        const result = await wishlistCollection.find(query).toArray();
+        res.send(result)
+    })
+
     app.post('/wishlist', async(req, res) => {
         const wishlist = req.body;
         console.log(wishlist);

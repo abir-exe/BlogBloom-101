@@ -29,6 +29,7 @@ async function run() {
     await client.connect();
 
     const allBlogsCollection = client.db('BlogBloomDB').collection('allBlogs');
+    const commentCollection = client.db('BlogBloomDB').collection('comments');
 
     app.get('/allblogs', async(req, res) => {
         const cursor = allBlogsCollection.find();
@@ -47,6 +48,12 @@ async function run() {
         const query = {_id: new ObjectId(id)}
         const result = await allBlogsCollection.findOne(query);
         res.send(result);
+    })
+
+    // comments 
+    app.post('/comments', async(req, res) => {
+        const comment = req.body;
+        console.log(comment)
     })
 
 

@@ -30,6 +30,7 @@ async function run() {
 
     const allBlogsCollection = client.db('BlogBloomDB').collection('allBlogs');
     const commentCollection = client.db('BlogBloomDB').collection('comments');
+    const wishlistCollection = client.db('BlogBloomDB').collection('wishlist');
 
     app.get('/allblogs', async(req, res) => {
         const cursor = allBlogsCollection.find();
@@ -51,12 +52,34 @@ async function run() {
     })
 
     // comments 
+
+    app.get('/comments', async(req, res) => {
+        console.log(req.query.email);
+        let query = {};
+        if(req.query?.email) {
+            query = {email: req.query.email}
+        }
+        const result = await commentCollection.find(query).toArray();
+        res.send(result)
+    })
+
+
     app.post('/comments', async(req, res) => {
         const comment = req.body;
         console.log(comment);
         const result = await commentCollection.insertOne(comment);
         res.send(result);
     })
+
+    //wishlist
+    app.post('/wishlist', async(req, res) => {
+        const wishlist = req.body;
+        console.log(wishlist);
+        const result = await wishlistCollection.insertOne(wishlist);
+        res.send(result);
+    })
+
+
 
 
     // Send a ping to confirm a successful connection

@@ -60,7 +60,7 @@ async function run() {
         const query = {_id: new ObjectId(id)}
         const result = await allBlogsCollection.findOne(query);
         res.send(result);
-    })
+    }) 
 
     app.patch('/details/:id', async(req, res) => {
         const updatedBlog = req.body;

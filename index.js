@@ -118,9 +118,16 @@ async function run() {
         res.send(result);
     });
 
+    // Match Searched Text 
+    app.post('/searchText', (req, res) => {
+      const searched = req.body;
+      console.log(searched);
+      const query = {}
+    })
+
     app.delete('/wishlist/:id', async(req, res) => {
         const id = req.params.id;
-        const query = {_id: new ObjectId(id)}
+        const query = {_id: id}
         const result = await wishlistCollection.deleteOne(query);
         res.send(result); 
     })

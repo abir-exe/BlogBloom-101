@@ -49,7 +49,7 @@ async function run() {
         res.send(result);
     })
 
-    app.get('/allblogs', async(req, res) => {
+    app.get('/allblogs/search', async(req, res) => {
         const searchText = req.params.search;
   
         const result =await allBlogsCollection.find({title : {$regex : searchText, $options : "i"}}).toArray()
@@ -124,6 +124,32 @@ async function run() {
         const result = await wishlistCollection.deleteOne(query);
         res.send(result); 
     })
+    
+    //update
+    app.put("/allblogs/:id", async (req, res) => {
+        const id = req.params.id;
+        const data = req.body;
+        const filter = {
+          _id: new ObjectId(id),
+        };
+        const options = { upsert: true };
+        const updatedData = {
+          $set: {
+            title : data.title,
+      category: data.category,
+      image: data.image,
+      date: data.date,
+      short_description: data.short_description,
+      details: data.details
+          },
+        };
+        const result = await allBlogsCollection.updateOne(
+          filter,
+          updatedData,
+          options
+        );
+        res.send(result)
+      });
 
 
 

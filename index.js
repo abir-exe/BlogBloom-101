@@ -49,8 +49,21 @@ async function run() {
         res.send(result);
     })
 
+    app.get('/allblogs', async(req, res) => {
+        const searchText = req.params.search;
+  
+        const result =await allBlogsCollection.find({title : {$regex : searchText, $options : "i"}}).toArray()
+        res.send(result)
+   })
+
     app.get('/recentblogs', async(req, res) => {
         const cursor = allBlogsCollection.find().limit(6).sort({ date: -1 });
+        const result = await cursor.toArray();
+        res.send(result);
+    })
+
+    app.get('/featuredblogs', async(req, res) => {
+        const cursor = allBlogsCollection.find().limit(10);
         const result = await cursor.toArray();
         res.send(result);
     })

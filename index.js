@@ -62,6 +62,11 @@ async function run() {
         res.send(result);
     })
 
+    app.patch('/details/:id', async(req, res) => {
+        const updatedBlog = req.body;
+        console.log(updatedBlog)
+    })
+
     // comments 
 
     app.get('/comments', async(req, res) => {
